@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions And Their Graphs</title>
+    <style>
+        /* [Styles remain the same as your premium dark glassmorphism theme] */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a1a;
+            --surface: #f4f8ff;
+            --glass: rgba(240, 245, 255, 0.95);
+            --glass-border: rgba(59, 130, 246, 0.2);
+            --text: #0f172a;
+            --text-muted: #475569;
+            --accent: linear-gradient(135deg, #3b82f6, #ec4899);
+            --success: #10b981;
+            --error: #ef4444;
+            --accent-blue: #00e5ff;
+            --accent-pink: #ec4899;
+            --plum: #6b21a8;
+            --primary-purple: #7e22ce;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            text-align: justify;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .header {
+            position: fixed;
+            top: 0; 
+            width: 100%; 
+            height: 5vh;
+            background: rgba(10, 10, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.1);
+            display: flex; 
+            align-items: center;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .brand {
+            margin-left: 1.5rem; 
+            font-size: 1.5rem; 
+            font-weight: 700;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hamburger { width: 30px; height: 24px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .hamburger span { height: 3px; background: var(--accent); border-radius: 2px; transition: 0.3s; }
+
+        .sidebar {
+            position: fixed; top: 70px; left: -220px; width: 220px;
+            height: calc(100vh - 70px); background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 999; padding: 2rem 0;
+        }
+        .sidebar.open { left: 0; }
+
+        .nav-item { padding: 1rem 2rem; cursor: pointer; transition: 0.3s; color: violet; }
+        .nav-item:hover { color: #fff; transform: translateX(10px); }
+        .nav-item.active { color: #fff; background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; }
+
+        .main-content { margin-top: 100px; padding: 2rem; flex: 1; }
+        .content-section { display: none; animation: fadeIn 0.5s ease; max-width: 1000px; margin: 0 auto; }
+        .content-section.active { display: block; }
+
+        .intro-card {
+            background: var(--surface);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; 
+            padding: 2rem; 
+            text-align: justify;
+            margin-bottom: 5px;
+            margin-top: 20px;
+            font-size: 1.2rem;      /* Slightly larger font for readability */
+            line-height: 1.8;      /* Increases space between lines of text */
+            letter-spacing: 1px; /* Adds a tiny bit of space between letters */
+        }
+    
+    
+        }
+        .intro-card h1 { font-size: 3rem; margin-bottom: 1rem; background: var(--text-muted-dark); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .footer {
+            padding: 2rem; 
+            text-align: center; 
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 1.2rem; 
+            background: rgba(10, 10, 26, 0.9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: violet;
+        }
+    
+
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    /* Add these rules to your existing style block */
+    .hamburger.active span:nth-child(1) { 
+        transform: rotate(45deg) translate(8px, 8px); 
+    }
+    .hamburger.active span:nth-child(2) { 
+        opacity: 0; 
+    }
+    .hamburger.active span:nth-child(3) { 
+        transform: rotate(-45deg) translate(7px, -7px); 
+    }
+    
+    
+    
+    
+    
+    
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap');
+    .vending-machine-wrapper {
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        
+        padding: 20px;
+        color: black;
+        background: var(--surface);
+        border-radius: 20px;
+    }
+
+    .vending-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2.5rem;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: black;
+    }
+
+    .vending-subtitle {
+        color:black;
+        margin-bottom: 30px;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        text-align: justify;
+        line-height: 1.8;        
+    }
+
+    .machine-container {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .machine {
+        width: 380px;
+        background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
+        border-radius: 25px;
+        padding: 25px;
+        box-shadow: 
+            0 25px 50px -12px rgba(0, 0, 0, 0.8),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 2px solid #4a5568;
+        position: relative;
+    }
+
+    .machine::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #00d4ff, #7b2cbf, #00d4ff);
+        border-radius: 27px;
+        z-index: -1;
+        opacity: 0.3;
+        animation: glow 3s ease infinite;
+    }
+
+    @keyframes glow {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+    
+    .glass-window {
+        background: linear-gradient(180deg, #1a202c 0%, #0d1117 100%);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 3px solid #4a5568;
+        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .product {
+        background: linear-gradient(145deg, #2d3748, #1a202c);
+        border-radius: 12px;
+        padding: 15px 10px;
+        text-align: center;
+        border: 2px solid #4a5568;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product:hover {
+        transform: translateY(-5px);
+        border-color: #00d4ff;
+        box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+    }
+
+    .product.selected {
+        border-color: #00d4ff;
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        background: linear-gradient(145deg, #2d3748, #1a365d);
+    }
+
+    .product.out-of-stock {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(1);
+    }
+
+    .product-icon {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .product-name {
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        color: #e2e8f0;
+    }
+
+    .product-price {
+        font-family: 'Orbitron', sans-serif;
+        color: #48bb78;
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .product-stock {
+        font-size: 0.75rem;
+        color: #a0aec0;
+        margin-top: 5px;
+    }
+    
+    .control-panel {
+        background: linear-gradient(145deg, #1a202c, #0d1117);
+        border-radius: 15px;
+        padding: 20px;
+        border: 2px solid #4a5568;
+    }
+
+    .screen-container {
+        background: #000;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 3px solid #2d3748;
+        box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .screen {
+        font-family: 'Orbitron', monospace;
+        color: #00ff88;
+        font-size: 1.1rem;
+        min-height: 60px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        line-height: 1.5;
+    }
+
+    .screen.error { color: #ff6b6b; text-shadow: 0 0 10px rgba(255, 107, 107, 0.5); }
+    .screen.success { color: #4ecdc4; text-shadow: 0 0 10px rgba(78, 205, 196, 0.5); }
+
+    .balance-display { font-size: 1.5rem; font-weight: 700; margin-bottom: 5px; }
+    .message-display { font-size: 0.9rem; opacity: 0.9; }
+
+    .coin-slot-area {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .coin-btn {
+        background: linear-gradient(145deg, #ffd700, #ffed4e);
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-weight: 700;
+        color: #744210;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4), inset 0 -3px 0 rgba(0, 0, 0, 0.2);
+        transition: all 0.2s ease;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        position: relative;
+    }
+
+    .coin-btn:hover { transform: translateY(-3px); }
+
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+    }
+
+    .btn-purchase { background: linear-gradient(145deg, #48bb78, #38a169); color: white; }
+    .btn-purchase:disabled { background: #4a5568; cursor: not-allowed; opacity: 0.6; }
+    .btn-refund { background: linear-gradient(145deg, #ed8936, #dd6b20); color: white; }
+    .btn-reset { background: linear-gradient(145deg, #e53e3e, #c53030); color: white; }
+
+    .delivery-area {
+        background: linear-gradient(180deg, #1a202c 0%, #0d1117 100%);
+        border-radius: 15px;
+        padding: 20px;
+        margin-top: 20px;
+        border: 3px solid #4a5568;
+        min-height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .delivery-slot {
+        width: 100%;
+        height: 60px;
+        background: linear-gradient(180deg, #0d1117 0%, #000 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #2d3748;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .delivery-item {
+        font-size: 3rem;
+        animation: dropIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    @keyframes dropIn {
+        0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+        60% { transform: translateY(10px) scale(1.1); }
+        100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .stats-panel {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        padding: 20px;
+        width: 250px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        font-size: 0.9rem;
+    }
+    
+    .stat-value { font-weight: 700; color: black; font-family: 'Orbitron', sans-serif; }
+
+    @media (max-width: 768px) {
+        .machine-container { flex-direction: column; align-items: center; }
+        .vending-title { font-size: 1.8rem; }
+        .machine { width: 100%; max-width: 380px; }
+    }
+    
+    
+    
+    
+    .bg-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        h1 {
+            text-align: left;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: black;
+            
+        }
+
+        .section {
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        h2 {
+            color: black;
+            margin-bottom: 16px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: left;
+            gap: 5px;
+        }
+
+        p {
+            color: black;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 20px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass);
+            color: var(--text);
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+    
+    button.active {
+            background: var(--accent);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Mapping Activity Styles */
+        .mapping-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            min-height: 250px;
+            position: relative;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            min-width: 120px;
+        }
+
+        .label {
+            text-align: center;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+            color: var(--text);
+        }
+
+        .item.error {
+            border-color: var(--error);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .arrows {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .arrow-line {
+            stroke: #3b82f6;
+            stroke-width: 2;
+            fill: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .arrow-line.show { opacity: 1; }
+        .arrow-line.bad { stroke: var(--error); stroke-dasharray: 4; }
+    
+    .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            display: none;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .result.show { display: block; }
+        .result.good { background: rgba(16, 185, 129, 0.1); color: green; border: 1px solid var(--success); }
+        .result.bad { background: rgba(239, 68, 68, 0.1); color: red; border: 1px solid var(--error); }
+
+        /* Graph Activity Styles */
+        .graph-area { text-align: center; }
+        canvas {
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            background: #050510;
+            max-width: 100%;
+        }
+
+        .slider-box { margin: 25px 0; }
+        input[type="range"] {
+            width: 100%;
+            max-width: 500px;
+            height: 6px;
+            border-radius: 3px;
+            background: var(--glass);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .info strong { color: #3b82f6; margin-left: 5px; }
+
+        /* New layout for the machine section */
+.machine-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows stacking on small screens */
+}
+
+.machine-left {
+    flex: 1;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+.machine-right {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 300px;
+}
+    
+    .display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            min-width: 100px;
+            color: black;
+            text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+        }
+
+        .function-box {
+            background: var(--glass);
+            border: 2px solid #3b82f6;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .function-box select {
+            margin-top: 15px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: var(--bg);
+            color: white;
+            border: 1px solid var(--glass-border);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 220px;
+            margin: 20px auto;
+        }
+
+        .keypad button { padding: 15px; font-weight: bold; }
+
+
+        @media (max-width: 768px) {
+            .mapping-box { gap: 20px; padding: 20px; flex-direction: column; }
+            .machine { flex-direction: column; }
+            .equals { transform: rotate(90deg); }
+        }
+    
+    /* Container for the side-by-side layout */
+.machine-flex-row {
+    display: flex;
+    flex-direction: row; /* Forces side-by-side */
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 30px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+/* Left Column: Keyboard */
+.column-keyboard {
+    flex: 0 0 280px; /* Fixed width for the keyboard area */
+}
+
+/* Right Column: Processor & Output */
+.column-processing {
+    flex: 1; /* Takes up the remaining space */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Mobile fix: stacks them if the screen gets too small */
+@media (max-width: 768px) {
+    .machine-flex-row {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+    
+    
+    
+    
+    
+    .lab-container { display: flex; flex-direction: column; gap: 2rem; }
+        .lab-box {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+            line height: 1.8;
+        }
+        .lab-box h2 { color: black; margin-bottom: 1rem; font-size: 1.5rem; }
+        
+        .lab-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .lab-table th { color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .lab-table td { padding: 12px 5px; text-align: center; }
+        
+        .lab-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: black;
+            padding: 8px;
+            border-radius: 6px;
+            width: 90%;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .lab-input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
+        
+        .lab-actions { 
+            display: flex; 
+            justify-content: flex-end; 
+            gap: 1rem; 
+            margin-top: 1rem; 
+        }
+    
+        .btn-lab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            transition: 0.3s;
+        }
+        .btn-verify { 
+            background: var(--accent); 
+            color: white; 
+        }
+    
+        .btn-verify:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px); 
+        }
+    
+        .btn-clear { 
+            background: transparent; 
+            border: 1px solid #ef4444; 
+            color: #ef4444; 
+        }
+    
+        .btn-clear:hover { background: #ef4444; color: white; }
+
+        /* Validation Colors */
+        .input-correct { border-color: green !important; background: rgba(0, 230, 118, 0.1) !important; }
+        .input-incorrect { border-color: red !important; background: rgba(239, 68, 68, 0.1) !important; }
+    
+    
+    
+    
+    .eval-container { display: flex; flex-direction: column; gap: 2rem; }
+        .eval-box {
+            background: var(--surface);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            
+        }
+        .eval-box h2 { color: black; margin-bottom: 1.5rem; font-size: 1.3rem; border-bottom: 1px solid rgba(236, 72, 153, 0.2); padding-bottom: 8px; }
+        
+        .eval-item { margin-bottom: 20px; padding-left: 15px; border-left: 2px solid rgba(255,255,255,0.1); }
+        .eval-item p { margin-bottom: 10px; font-size: 1.2rem; }
+
+        .eval-input, .eval-select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: black;
+            padding: 8px 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .eval-input:focus { border-color: #ec4899; box-shadow: 0 0 10px rgba(236, 72, 153, 0.2); }
+
+        .eval-table { border-collapse: collapse; margin: 10px 0; font-size: 1.2rem; }
+        .eval-table td, .eval-table th { border: 1px solid rgba(255,255,255,0.1); padding: 8px 12px; }
+
+        .eval-canvas {
+            background: #fff;
+            border-radius: 12px;
+            margin: 15px 0;
+            width: 100%;
+            max-width: 350px;
+            cursor: ew-resize;
+        }
+
+        .eval-btn {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-left: 15px;
+        }
+
+        .eval-status { margin-top: 15px; margin-left: 30px; font-weight: bold; font-size: 1.2rem; min-height: 1.2em; }
+        .status-pass { color: #00e676; }
+        .status-fail { color: #ff5252; }
+    
+    
+    
+    
+        /* Music Control Button */
+.music-control {
+    margin-left: auto;
+    background: var(--glass); /* Start subtle (Glass) */
+    border: 1px solid var(--glass-border);
+    color: black;
+    padding: 6px 12px;
+    border-radius: 0px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+    
+    .music-control:hover {
+    background: var(--primary-purple);
+    box-shadow: 0 0 15px var(--primary-purple);
+}
+
+/* This will now use the gradient when the music is playing */
+.music-control.active {
+    background: var(--accent);
+    border-color: transparent;
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+}
+    
+    .header-right-group {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adjust spacing between button and logo */
+}
+    
+    .header-logo {
+    height: 80px; /* Constraints logo safely inside your 70px header */
+    width: auto;  /* Maintains original design aspect ratio */
+    object-fit: contain;
+    margin-left: 30px;
+        
+}
+
+/* Hide the YouTube Player */
+#youtube-player-container {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+    
+    html, body {
+    /* Prevents "Double-tap to zoom" on mobile devices */
+    touch-action: manipulation;
+}
+    
+    </style>
+</head>
+<body>
+    <div class="bg-gradient"></div>
+
+    <header class="header">
+        <div class="hamburger" onclick="toggleMenu()">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="brand">Learning Portal</div>
+        
+        <button class="music-control" onclick="toggleMusic()" id="musicBtn">
+        <span id="musicText">Play</span>
+    </button>
+        <img src="https://imgur.com/AMG0rxo.jpg" alt="Logo" class="header-logo">
+
+        
+        <div id="youtube-player-container">
+    <div id="player"></div>
+</div>
+    </header>
+
+    <aside class="sidebar" id="sidebar">
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="switchTab('home', event)">Home</div>
+            <div class="nav-item" onclick="switchTab('engage', event)">Engage</div>
+            <div class="nav-item" onclick="switchTab('explore', event)">Explore</div>
+            <div class="nav-item" onclick="switchTab('explain', event)">Explain</div>
+            <div class="nav-item" onclick="switchTab('elaborate', event)">Elaborate</div>
+            <div class="nav-item" onclick="switchTab('evaluate', event)">Evaluate</div>
+            <div class="nav-item" onclick="switchTab('about', event)">About</div>
+            <div class="nav-item" onclick="switchTab('references', event)">References</div>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <section id="home" class="content-section active">
+            <div class="intro-card" style="font-size: 1.2rem">
+                <h1>FUNCTIONS AND THEIR GRAPHS</h1>
+                <br>This learning material aims to cognitively define functions, identify domain and range, and recognize functions using the vertical line test. It intends to affectively demonstrate appreciation for logical precision, accuracy in mathematical analysis. It also seeks students to psychomotorically complete tables of values given. <br><br> Artificial Intelligence was utilized to assist in refining grammar, ensuring clarity, and enhancing language accuracy to facilitate better learning. <br><br> It is important to note that this work is protected intellectual property; sharing, distributing, or reproducing any part of this material without the explicit permission of the creator and the institution is strictly prohibited and may result in legal and disciplinary consequences.
+            </div>
+        </section>
+
+        <section id="engage" class="content-section">
+            <div class="vending-machine-wrapper">
+    <h1 class="vending-title">ATSII Vending Machine</h1><br>
+    <p class="vending-subtitle">This vending machine serves as an excellent real-world model for functions in algebra, demonstrating the concept that every valid input (selecting an item and inserting money) produces exactly one specific output (the product dispensed). It clearly illustrates domain (the available choices and coins) and range (the items received and change given), while also showing how variables like current balance and stock levels change according to mathematical rules and operations. Ultimately, it represents how mathematics is used to create reliable systems where relationships between quantities are defined, predictable, and follow logical processes.</p>
+
+    <div class="machine-container">
+        <div class="machine">
+            <div class="glass-window">
+                <div class="products-grid" id="productsGrid">
+                    </div>
+            </div>
+
+            <div class="control-panel">
+                <div class="screen-container">
+                    <div class="screen" id="screen">
+                        <div class="balance-display">$0.00</div>
+                        <div class="message-display">Welcome! Insert coins to begin</div>
+                    </div>
+                </div>
+
+                <div class="coin-slot-area">
+                    <button class="coin-btn" onclick="insertCoin(0.25)">25¢</button>
+                    <button class="coin-btn" onclick="insertCoin(0.50)">50¢</button>
+                    <button class="coin-btn" onclick="insertCoin(1.00)">$1</button>
+                    <button class="coin-btn" onclick="insertCoin(2.00)">$2</button>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-purchase" id="purchaseBtn" onclick="purchase()" disabled>Purchase</button>
+                    <button class="btn btn-refund" onclick="refund()">Refund</button>
+                    <button class="btn btn-reset" onclick="resetMachine()">Restock All</button>
+                </div>
+            </div>
+
+            <div class="delivery-area">
+                <div class="delivery-slot" id="deliverySlot">
+                    <span style="color: #4a5568; font-size: 0.9rem;">Empty</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span>Total Sales</span>
+                <span class="stat-value" id="totalSales">$0.00</span>
+            </div>
+            <div class="stat-item">
+                <span>Items Sold</span>
+                <span class="stat-value" id="itemsSold">0</span>
+            </div>
+            <div class="stat-item">
+                <span>Current Balance</span>
+                <span class="stat-value" id="currentBalance">$0.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+        </section>
+
+        <section id="explore" class="content-section">
+            <div class="bg-gradient"></div>
+
+<div class="container">
+
+    <div class="section">
+        <h1>Function Explorer</h1><br><br>
+        <h2>Mapping Diagrams</h2>
+        <br>This section visually explains the definition of a function by showing how elements from one set connect to another. It demonstrates that in a function, every element in the Domain (input) must correspond to exactly one element in the Range (output). The example shown, "Students to ID Numbers," is a perfect function because each student has only one unique ID number, unlike relationships like "Students to Pets" where one person can have many pets.<br>
+        <br>
+        <div class="btn-group">
+            <button onclick="showMapping('id')" id="btn-id">Students → ID Numbers</button>
+            <button onclick="showMapping('pets')" id="btn-pets">Students → Pets</button>
+            <button onclick="showMapping('grades')" id="btn-grades">Students → Grades</button>
+        </div>
+
+        <div class="mapping-box" id="mappingBox">
+            <svg class="arrows" id="arrowSvg"></svg>
+            <div class="column">
+                <div class="label">DOMAIN (Input)</div>
+                <div id="leftCol"></div>
+            </div>
+            <div class="column">
+                <div class="label">RANGE (Output)</div>
+                <div id="rightCol"></div>
+            </div>
+        </div>
+
+        <div class="result" id="mapResult"></div>
+    </div>
+
+    <div class="section">
+        <h2>Vertical Line Test</h2>
+        <br>This tool teaches how to determine if a graph represents a function using a simple visual rule. It states that if any vertical line drawn on the graph intersects the curve at more than one point, then it is not a function. In the example shown, the parabola passes the test because a vertical line touches it only once, confirming that for every x-value, there is exactly one y-value.<br>
+        <br>
+        <div class="btn-group">
+            <button onclick="setGraph('parabola')" id="btn-parabola">Parabola</button>
+            <button onclick="setGraph('circle')" id="btn-circle">Circle</button>
+            <button onclick="setGraph('sine')" id="btn-sine">Sine Wave</button>
+            <button onclick="setGraph('sideways')" id="btn-sideways">Sideways</button>
+        </div>
+
+        <div class="graph-area">
+            <canvas id="graphCanvas" width="500" height="300"></canvas>
+            
+            <div class="slider-box">
+                <input type="range" id="vLine" min="0" max="500" value="250" oninput="moveLine(this.value)">
+            </div>
+            
+            <div class="info">
+                <span>Intersections: <strong id="crossings">0</strong></span>
+                <span>Status: <strong id="testResult">Select a graph</strong></span>
+                <span>Coordinate: <strong id="pos">x=0</strong></span>
+            </div>
+        </div>
+    </div>
+    
+<div class="section">
+        <h2>Function Machine</h2>
+        <br>This section illustrates the concept of a function as a processor or a machine that follows a specific rule. You input a value for x, the machine applies the mathematical formula, and produces exactly one output. It clearly demonstrates the process of evaluating functions, showing how inputs are transformed into outputs based on a consistent mathematical relationship.<br>
+    <br>
+   <div class="machine-flex-row">
+            <div class="column-keyboard">
+                <div class="label" style="margin-bottom: 10px; color: var(--text-muted);">Input (x)</div>
+                <div class="keypad">
+                    <button onclick="addNum('7')">7</button>
+                    <button onclick="addNum('8')">8</button>
+                    <button onclick="addNum('9')">9</button>
+                    <button onclick="addNum('4')">4</button>
+                    <button onclick="addNum('5')">5</button>
+                    <button onclick="addNum('6')">6</button>
+                    <button onclick="addNum('1')">1</button>
+                    <button onclick="addNum('2')">2</button>
+                    <button onclick="addNum('3')">3</button>
+                    <button onclick="addNum('-')">-</button>
+                    <button onclick="addNum('0')">0</button>
+                    <button onclick="clearNum()">C</button>
+                </div>
+                <div class="display" id="inputNum" style="margin-top: 15px; color: black; text-align: center;">0</div>
+            </div>
+
+            <div class="column-processing">
+                <div class="function-box">
+                    <div style="font-weight: bold; color: black;">PROCESSOR</div>
+                    <select id="funcSelect" onchange="calculate()">
+                        <option value="square">f(x) = x²</option>
+                        <option value="double">f(x) = 2x</option>
+                        <option value="add">f(x) = x + 5</option>
+                        <option value="abs">f(x) = |x|</option>
+                        <option value="inverse">f(x) = 1/x</option>
+                    </select>
+                </div>
+
+                <div style="font-size: 2rem; color: black;" class="equals">➜</div>
+
+                <div class="box">
+                    <div class="label" style="color: black;">Output (f(x))</div>
+                    <div class="display" id="outputNum" style="text-align: center; color: black">0</div>
+                </div>
+            </div>
+        </div>
+   </div>
+</div>
+        </section>
+
+        <section id="explain" class="content-section">
+               <div class="explain-container" style="max-width: 1000px; margin: 0 auto;">
+        
+        <div class="intro-card" style="margin-bottom: 1rem; text-align: justify; padding: 2rem; ">
+            <h1>Explaining Functions</h1>
+            <br>This section formalizes what a function truly is in mathematics. It explains that a function is not just a tool or a machine, but a precise relationship between two sets of values. It establishes the rule that for every valid input, there must be exactly one corresponding output, ensuring consistency and predictability in mathematical relationships.
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem;">
+            
+            <div class="intro-card" style="text-align: justify; padding: 2rem; ">
+                <h2 style="color: black; margin-bottom: 1rem; display: flex; align-items: justify; gap: 10px;">Key Definitions</h2>
+                <ul style="list-style: none; color: black; line-height: 1.8;">
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                        <b style="color: black;">Function:</b> It is defined as a rule where each input has exactly one output. This means no single value of x can produce two different values of y.
+                    </li>
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                        <b style="color: black;">Notation:</b> f(x) = y is read as "f of x equals y". This notation tells us that y depends on the value of x, making it clear which variable is the input and which is the output.
+                    </li>
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                        <b style="color: black;">Domain:</b> This refers to the set of all possible input values (x-values) that are allowed to be used in the function.
+                    </li>
+                    <li style="margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                        <b style="color: black;">Range:</b> This refers to the set of all possible output values (y-values) that result from applying the rule.
+                    </li>
+                </ul>
+            </div>
+
+            <div class="intro-card" style="text-align: justify; padding: 2rem;">
+                <h2 style="color: black; margin-bottom: 1rem;">Notation Practice</h2>
+                <br>This area allows learners to get comfortable using the function notation correctly. Given the rule f(x) = 2x + 1, students practice substituting different numbers into the parentheses to calculate the result. It reinforces the idea that whatever number goes inside f(...) replaces x in the equation, helping master the process of evaluating functions.<br>
+                <p style="font-size: 1.2rem; margin-bottom: 1rem;">Test the rule: <span style="color: black; font-weight: bold;">f(x) = 2x + 1</span></p>
+                
+                <div style="display: flex; gap: 10px; align-items: center; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin-bottom: 10px;">
+                    <span style="font-family: monospace; font-size: 1.2rem;">f(</span>
+                    <input type="number" id="explainInputX" placeholder="x" style="width: 70px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: black; border-radius: 5px; text-align: center; padding: 5px;">
+                    <span style="font-family: monospace; font-size: 1.2rem;">) = </span>
+                    <button onclick="explainCalculate()" style="background: var(--accent); border: none; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Solve</button>
+                </div>
+
+                <div id="explainResult" style="padding: 10px; border-radius: 8px; background: rgba(16, 185, 129, 0.1); border-left: 3px solid #10b981; color: black; font-size: 1rem;">
+                    Result will appear here...
+                </div>
+            </div>
+        </div>
+
+        <div class="intro-card" style="text-align: justify; padding: 2rem;">
+            <h2 style="color: black; margin-bottom: 1.5rem;">Visual Graphs</h2>
+            <br>This tool helps students see what functions look like visually. By switching between Linear, Quadratic, Cubic, and Absolute Value functions, they can observe how the equation changes the shape of the graph.<br>
+            <br>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                <button class="graph-btn active" onclick="updateExplainGraph('linear', this)" style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: black; cursor: pointer;">Linear</button>
+                <button class="graph-btn" onclick="updateExplainGraph('quadratic', this)" style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: black; cursor: pointer;">Quadratic</button>
+                <button class="graph-btn" onclick="updateExplainGraph('cubic', this)" style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: black; cursor: pointer;">Cubic</button>
+                <button class="graph-btn" onclick="updateExplainGraph('absolute', this)" style="padding: 8px 15px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: black; cursor: pointer;">Absolute</button>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: justify; gap: 20px;">
+                <canvas id="explainGraph" width="500" height="300" style="background: #050510; border-radius: 15px; border: 1px solid rgba(59, 130, 246, 0.3); max-width: 100%;"></canvas>
+                
+                <div id="graphData" style="width: 100%; padding: 15px; background: rgba(255,255,255,0.03); border-radius: 12px; text-align: center;">
+                    <h3 id="expGraphTitle" style="color: black;">Linear Function</h3>
+                    <p id="expGraphDesc" style="font-size: 1.2rem; color: black;">Domain: All Real Numbers | Range: All Real Numbers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+        </section>
+
+        <section id="elaborate" class="content-section">
+            <div class="lab-container">
+        <div class="lab-box">
+            <h2>Problem 1: The Apple Store</h2>
+            <br>Problem: Mang Juan sells apples at ₱25.00 each. The total cost can be calculated using the function C(n) = 25n, where n is the number of apples and C(n) is the total cost. Complete the table by evaluating the function for different values of n and write the results as ordered pairs (n, C).<br>
+            <table class="lab-table" style="text-align: center; ">
+                <thead>
+                    <tr>
+                        <th>n</th>
+                        <th>Substitution</th>
+                        <th>C(n)</th>
+                        <th>Ordered Pair (n, C)</th>
+                    </tr>
+                </thead>
+                <tbody id="lab-body-1">
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`
+                                <tr>
+                                    <td><input type="number" class="lab-input" placeholder="?"></td>
+                                    <td><input type="text" class="lab-input" placeholder="?(?)"></td>
+                                    <td><input type="number" class="lab-input" placeholder="?"></td>
+                                    <td><input type="text" class="lab-input" placeholder="(?, ?)"></td>
+                                </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+            <div class="lab-actions">
+                <button class="btn-lab btn-clear" onclick="resetLab('lab-body-1')">Clear</button>
+                <button class="btn-lab btn-verify" onclick="validateLab('lab-body-1', 25)">Verify Activity 1</button>
+            </div>
+        </div>
+
+        <div class="lab-box" >
+            <h2>Problem 2: High Speed Transit</h2>
+            <br>Problem: A high-speed train travels at a constant speed of 80 kilometers per hour. The distance covered is given by the function d(t) = 80t, where t is the time in hours and d(t) is the distance traveled. Use this formula to fill in the table and express the corresponding values as ordered pairs (t, d).<br>
+            <table class="lab-table" style="text-align: center;">
+                <thead>
+                    <tr>
+                        <th>t</th>
+                        <th>Substitution</th>
+                        <th>d(t)</th>
+                        <th>Ordered Pair (t, d)</th>
+                    </tr>
+                </thead>
+                <tbody id="lab-body-2">
+                    <script>
+                        for(let i=0; i<5; i++) {
+                            document.write(`
+                                <tr>
+                                    <td><input type="number" class="lab-input" placeholder="?"></td>
+                                    <td><input type="text" class="lab-input" placeholder="?(?)"></td>
+                                    <td><input type="number" class="lab-input" placeholder="?"></td>
+                                    <td><input type="text" class="lab-input" placeholder="(?, ?)"></td>
+                                </tr>
+                            `);
+                        }
+                    </script>
+                </tbody>
+            </table>
+            <div class="lab-actions">
+                <button class="btn-lab btn-clear" onclick="resetLab('lab-body-2')">Clear</button>
+                <button class="btn-lab btn-verify" onclick="validateLab('lab-body-2', 80)">Verify Activity 2</button>
+            </div>
+        </div>
+    </div>
+        </section>
+
+        <section id="evaluate" class="content-section">
+            <div class="eval-container" style="text-align: justify;">
+        <div class="eval-box">
+            <h2>Part I: Relations (1-3)</h2>
+            <div class="eval-item">
+                <p><b>1.</b> Set A: {(1, 2), (2, 2), (3, 2), (4, 2)}</p>
+                <select id="e_q1" class="eval-select">
+                    <option value="">Is this a function?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="eval-item">
+                <p><b>2.</b> Set B: {(5, 1), (5, 2), (5, 3)}</p>
+                <select id="e_q2" class="eval-select">
+                    <option value="">Is this a function?</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="eval-item">
+                <p><b>3.</b> Domain of {(10, 0), (20, 1), (30, 2)}</p>
+                <input type="text" id="e_q3" class="eval-input" placeholder="Format: 1,2,3">
+            </div>
+            <button class="eval-btn" onclick="checkEval1()">Verify Part I</button>
+            <div id="e_res1" class="eval-status"></div>
+        </div>
+
+        <div class="eval-box">
+            <h2>Part II: Algebraic (4-6)</h2>
+            <p style="font-size: 1.2rem; opacity: 1;">Given: f(x) = 3x - 4 | h(x) = x² + 2</p>
+            <div class="eval-item">
+                <p><b>4.</b> f(5) = ?</p>
+                <input type="number" id="e_q4" class="eval-input">
+            </div>
+            <div class="eval-item">
+                <p><b>5.</b> h(-3) = ?</p>
+                <input type="number" id="e_q5" class="eval-input">
+            </div>
+            <div class="eval-item">
+                <p><b>6.</b> f(0) + h(1) = ?</p>
+                <input type="number" id="e_q6" class="eval-input">
+            </div>
+            <button class="eval-btn" onclick="checkEval2()">Verify Part II</button>
+            <div id="e_res2" class="eval-status"></div>
+        </div>
+
+        <div class="eval-box">
+            <h2>Part III: Logic (7-8)</h2>
+            <div class="eval-item">
+                <p><b>7.</b> Is this table a function?</p>
+                <table class="eval-table">
+                    <tr><th>x</th><td>-1</td><td>0</td><td>1</td><td>0</td></tr>
+                    <tr><th>y</th><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+                </table>
+                <select id="e_q7" class="eval-select">
+                    <option value="">--Select--</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                </select>
+            </div>
+            <div class="eval-item">
+                <p><b>8.</b> Every input must have <u>exactly</u> one output.</p>
+                <select id="e_q8" class="eval-select">
+                    <option value="">--Select--</option>
+                    <option value="true">True</option>
+                    <option value="false">False</option>
+                </select>
+            </div>
+            <button class="eval-btn" onclick="checkEval3()">Verify Part III</button>
+            <div id="e_res3" class="eval-status"></div>
+        </div>
+                
+                <div class="eval-box">
+            <h2>Part IV: Graphs (9-10)</h2>
+            <p style="font-size: 1.2rem; opacity: 1;"><b>9.</b> Drag the vertical line. Does the circle pass the test?</p>
+            <canvas id="e_vlt" class="eval-canvas" width="400" height="200"></canvas>
+            <div class="eval-item">
+                <select id="e_q9" class="eval-select">
+                    <option value="">--Answer--</option>
+                    <option value="pass">Passes</option>
+                    <option value="fail">Fails</option>
+                </select>
+            </div>
+            <div class="eval-item">
+                <p><b>10.</b> A vertical line touches at 3 points. Is it a function?</p>
+                <input type="text" id="e_q10" class="eval-input" placeholder="Yes/No">
+            </div>
+            <button class="eval-btn" onclick="checkEval4()">Final Submission</button>
+            <div id="e_res4" class="eval-status"></div>
+        </div>
+    </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="intro-card">
+                <h1>About Us</h1>
+                <br>The creator of this material is dedicated to producing high-quality educational resources that make learning Mathematics accessible and engaging. The content is designed to guide students in mastering key concepts through clear explanations and interactive visual aids. The creator of this material utilizes modern technology, including Artificial Intelligence, to ensure clarity, proper grammar, and effective communication throughout the content. The creator of this material upholds the values of academic integrity, originality, and respect for intellectual property rights. <br><br> If you have any questions, you may contact us through: <b>vertudazojr9@gmail.com</b><br>
+            </div>
+        </section>
+                
+                <section id="references" class="content-section">
+            <div class="intro-card" style="font-size: 1.2rem">
+            </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 SIPNAIYAN | Prepared and modified by John Renz I. Vertudazo</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+    // 1. Toggle the sidebar visibility
+    document.getElementById('sidebar').classList.toggle('open');
+    
+    // 2. Toggle the hamburger icon animation class
+    const hamburger = document.querySelector('.hamburger');
+    if (hamburger) {
+        hamburger.classList.toggle('active');
+    }
+}
+
+        function switchTab(tabId, e) {
+    const currentEvent = e || window.event;
+    
+    // Manage Nav Highlight
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    if (currentEvent && currentEvent.currentTarget) {
+        currentEvent.currentTarget.classList.add('active');
+    }
+    
+    // Switch Content
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    const targetSection = document.getElementById(tabId);
+    if (targetSection) {
+        targetSection.classList.add('active');
+    }
+    
+    // ALWAYS close the menu regardless of screen size
+    // We access the classList directly to ensure it shuts
+    document.getElementById('sidebar').classList.remove('open');
+    document.querySelector('.hamburger').classList.remove('active');
+            
+            const overlay = document.querySelector('.overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+
+    // Start speech
+    speakSectionText(tabId);
+}
+            
+               // Double click to stop speech and resume music if needed
+document.addEventListener('dblclick', () => {
+    if (synth.speaking) {
+        synth.cancel();
+        // The utterance.onend from your previous code will 
+        // automatically trigger and resume the music!
+    }
+});
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const sidebar = document.getElementById('sidebar');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!sidebar.contains(e.target) && !hamburger.contains(e.target) && sidebar.classList.contains('open')) {
+                toggleMenu();
+            }
+        });
+    
+    // 1. Configuration: Add your sentences here for each section
+const studyMaterial = {
+    "home": "",
+    "engage": "",
+    "explore": "",
+    "explain": "",
+    "elaborate": "",
+    "evaluation": "",
+    "about": ""
+};
+
+const synth = window.speechSynthesis;
+let musicWasPlaying = false; // To remember if music was on before speaking
+
+function speakSectionText(sectionId) {
+    // If something is already being spoken, cancel it
+    if (synth.speaking) {
+        synth.cancel();
+    }
+
+    const textToSpeak = studyMaterial[sectionId];
+    if (!textToSpeak) return;
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+    // Logic to handle Music Pause
+    utterance.onstart = () => {
+        if (isPlaying) { // Check if YouTube is currently playing
+            player.pauseVideo();
+            musicWasPlaying = true;
+        }
+    };
+
+    // Logic to handle Music Resume
+    utterance.onend = () => {
+        if (musicWasPlaying && isPlaying) {
+            player.playVideo();
+            musicWasPlaying = false;
+        }
+    };
+
+    // Optional: Customize the voice
+    utterance.pitch = 1;
+    utterance.rate = 1;
+
+    synth.speak(utterance);
+}
+    
+    
+    // Load the YouTube IFrame Player API code asynchronously
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+    
+var isPlaying = false;
+    const myPlaylist = ['WD3tyI5HfV8', 'RHjKXsy0crM', 'VIDEO_ID_3'];
+
+
+
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        playerVars: {
+            'listType': 'playlist',
+            'playlist': myPlaylist.join(','), // Connects your IDs into a list
+            'autoplay': 0,
+            'loop': 1,
+            'rel': 0,
+            'controls': 0
+        },
+        events: {
+            'onReady': onPlayerReady,
+            'onStateChange': onPlayerStateChange
+        }
+    });
+}
+
+// This ensures that when the last song ends, it starts the playlist over
+function onPlayerStateChange(event) {
+    // YT.PlayerState.ENDED = 0
+    if (event.data === YT.PlayerState.ENDED) {
+        player.nextVideo(); // Moves to next song in playlist
+    }
+}
+
+function onPlayerReady(event) {
+    // Optional: Set a lower volume for background music
+    event.target.setVolume(50); 
+}
+
+function toggleMusic() {
+    const musicBtn = document.getElementById('musicBtn'); // Target the button
+    const btnText = document.getElementById('musicText');
+    
+    if (!isPlaying) {
+        player.playVideo();
+        btnText.innerText = "Pause";
+        musicBtn.classList.add('active'); // ADD the color when playing
+        isPlaying = true;
+    } else {
+        player.pauseVideo();
+        btnText.innerText = "Play";
+        musicBtn.classList.remove('active'); // REMOVE the color when paused
+        isPlaying = false;
+    }
+}
+            
+            
+            
+            
+            
+            
+    
+    const products = [
+    { id: 1, name: 'Coke', icon: '🥤', price: 1.50, stock: 5, color: '#ef4444' },
+    { id: 2, name: 'Sprite', icon: '🍋', price: 1.75, stock: 5, color: '#22c55e' },
+    { id: 3, name: 'Water', icon: '💧', price: 1.00, stock: 5, color: '#3b82f6' },
+    { id: 4, name: 'Coffee', icon: '☕', price: 2.00, stock: 3, color: '#78350f' },
+    { id: 5, name: 'Energy', icon: '⚡', price: 2.50, stock: 3, color: '#f59e0b' },
+    { id: 6, name: 'Juice', icon: '🧃', price: 2.75, stock: 4, color: '#f97316' }
+];
+
+let balance = 0;
+let selectedProduct = null;
+let totalSales = 0;
+let itemsSold = 0;
+
+function initVending() {
+    renderProducts();
+    updateDisplay();
+}
+
+function renderProducts() {
+    const grid = document.getElementById('productsGrid');
+    grid.innerHTML = products.map(p => `
+        <div class="product ${p.stock === 0 ? 'out-of-stock' : ''} ${selectedProduct?.id === p.id ? 'selected' : ''}" 
+             onclick="selectProduct(${p.id})"
+             style="border-color: ${selectedProduct?.id === p.id ? p.color : ''}">
+            <span class="product-icon">${p.icon}</span>
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">$${p.price.toFixed(2)}</div>
+            <div class="product-stock">${p.stock > 0 ? p.stock + ' left' : 'OUT OF STOCK'}</div>
+        </div>
+    `).join('');
+}
+
+function selectProduct(id) {
+    const product = products.find(p => p.id === id);
+    if (product.stock === 0) {
+        updateDisplay("SOLD OUT!", true);
+        return;
+    }
+    selectedProduct = product;
+    renderProducts();
+    updateDisplay();
+}
+
+function insertCoin(amount) {
+    balance += amount;
+    updateDisplay(`Inserted $${amount.toFixed(2)}`);
+    setTimeout(updateDisplay, 1000);
+}
+
+function purchase() {
+    if (!selectedProduct || balance < selectedProduct.price) return;
+    
+    balance -= selectedProduct.price;
+    selectedProduct.stock--;
+    totalSales += selectedProduct.price;
+    itemsSold++;
+    
+    updateDisplay(`Dispensing ${selectedProduct.name}...`, false, true);
+    const slot = document.getElementById('deliverySlot');
+    slot.innerHTML = `<div class="delivery-item">${selectedProduct.icon}</div>`;
+    
+    setTimeout(() => {
+        updateDisplay("Thank you!");
+        selectedProduct = null;
+        renderProducts();
+        updateStats();
+        setTimeout(() => {
+            updateDisplay(balance > 0 ? `Balance: $${balance.toFixed(2)}` : "Welcome!");
+            document.getElementById('deliverySlot').innerHTML = '<span style="color: #4a5568; font-size: 0.9rem;">Empty</span>';
+        }, 2000);
+    }, 1500);
+}
+    
+    function refund() {
+    if (balance === 0) return;
+    updateDisplay(`Refunding $${balance.toFixed(2)}...`);
+    setTimeout(() => {
+        balance = 0;
+        selectedProduct = null;
+        renderProducts();
+        updateDisplay("Insert coins to begin");
+    }, 1000);
+}
+
+function resetMachine() {
+    products.forEach(p => p.stock = 5);
+    balance = 0;
+    selectedProduct = null;
+    totalSales = 0;
+    itemsSold = 0;
+    renderProducts();
+    updateDisplay("Restocked!");
+    updateStats();
+}
+
+function updateDisplay(message = null, isError = false, isSuccess = false) {
+    const screen = document.getElementById('screen');
+    const balanceDisplay = screen.querySelector('.balance-display');
+    const messageDisplay = screen.querySelector('.message-display');
+    
+    balanceDisplay.textContent = `$${balance.toFixed(2)}`;
+    
+    if (message) {
+        messageDisplay.textContent = message;
+        screen.className = 'screen' + (isError ? ' error' : '') + (isSuccess ? ' success' : '');
+    } else if (selectedProduct) {
+        const needed = Math.max(0, selectedProduct.price - balance).toFixed(2);
+        messageDisplay.textContent = balance >= selectedProduct.price ? "Ready!" : `Need $${needed} more`;
+    } else {
+        messageDisplay.textContent = balance > 0 ? "Select product" : "Welcome!";
+    }
+    
+    document.getElementById('purchaseBtn').disabled = !selectedProduct || balance < (selectedProduct?.price || 0);
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById('totalSales').textContent = `$${totalSales.toFixed(2)}`;
+    document.getElementById('itemsSold').textContent = itemsSold;
+    document.getElementById('currentBalance').textContent = `$${balance.toFixed(2)}`;
+}
+
+initVending();
+        
+     // ==================== Logic: Mapping ====================
+        const maps = {
+    id: {
+        left: ['Ana', 'Ben', 'Cara', 'David'],
+        right: ['#101', '#102', '#103', '#104'],
+        links: [[0,0], [1,1], [2,2], [3,3]],
+        isFunc: true,
+        msg: 'Function: Every student (input) has exactly one unique ID (output).'
+    },
+    pets: {
+        left: ['Ana', 'Ben', 'Joe', 'Cara'],
+        right: ['Dog', 'Cat', 'Fish', 'Bird'],
+        links: [[0,0], [1,1], [1,2], [2,3]],
+        isFunc: false,
+        msg: 'Not a function: Ben (one input) is associated with two outputs (Cat and Fish).'
+    },
+    grades: {
+        left: ['Ana', 'Ben', 'Cara', 'David', 'Eva'],
+        right: ['A', 'B', 'C'],
+        links: [[0,0], [1,1], [2,2], [3,0], [4,1]],
+        isFunc: true,
+        msg: 'Function: Multiple students can have the same grade, but each student has only one grade.'
+    }
+};
+
+function showMapping(type) {
+    const data = maps[type];
+    const leftCol = document.getElementById('leftCol');
+    const rightCol = document.getElementById('rightCol');
+    const svg = document.getElementById('arrowSvg');
+    const result = document.getElementById('mapResult');
+    
+    leftCol.innerHTML = ''; rightCol.innerHTML = ''; svg.innerHTML = '';
+    
+    document.querySelectorAll('.btn-group button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + type).classList.add('active');
+    
+    data.left.forEach((text, i) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.id = 'L' + i;
+        div.textContent = text;
+        if (type === 'pets' && text === 'Ben') div.classList.add('error');
+        leftCol.appendChild(div);
+    });
+    
+    const rightItems = type === 'grades' ? ['Grade A', 'Grade B', 'Grade C'] : data.right;
+    rightItems.forEach((text, i) => {
+        const div = document.createElement('div');
+        div.className = 'item';
+        div.id = 'R' + i;
+        div.textContent = text;
+        rightCol.appendChild(div);
+    });
+    
+    setTimeout(() => {
+        data.links.forEach((link, idx) => {
+            const from = document.getElementById('L' + link[0]);
+            const to = document.getElementById('R' + link[1]);
+            if (from && to) {
+                const box = document.getElementById('mappingBox').getBoundingClientRect();
+                const f = from.getBoundingClientRect();
+                const t = to.getBoundingClientRect();
+                
+                const x1 = f.right - box.left;
+                const y1 = f.top + f.height/2 - box.top;
+                const x2 = t.left - box.left;
+                const y2 = t.top + t.height/2 - box.top;
+                
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', `M ${x1} ${y1} Q ${(x1+x2)/2} ${(y1+y2)/2} ${x2} ${y2}`);
+                path.setAttribute('class', 'arrow-line ' + (data.isFunc ? '' : 'bad'));
+                path.style.transitionDelay = (idx * 100) + 'ms';
+                svg.appendChild(path);
+                
+                setTimeout(() => path.classList.add('show'), 50);
+            }
+        });
+    }, 50);
+    
+    result.textContent = data.msg;
+    result.className = 'result show ' + (data.isFunc ? 'good' : 'bad');
+}
+
+// ==================== Logic: Graph ====================
+const canvas = document.getElementById('graphCanvas');
+const ctx = canvas.getContext('2d');
+let currentGraph = 'parabola';
+
+const graphs = {
+    parabola: { func: (x) => 0.006 * Math.pow(x - 250, 2) + 50, isFunc: true },
+    circle: { 
+        func: (x) => {
+            const dx = x - 250;
+            if (Math.abs(dx) > 100) return null;
+            return { y1: 150 - Math.sqrt(10000 - dx*dx), y2: 150 + Math.sqrt(10000 - dx*dx) };
+        }, 
+        isFunc: false 
+    },
+    sine: { func: (x) => 150 - 60 * Math.sin((x - 250) * 0.025), isFunc: true },
+    sideways: {
+        func: (x) => {
+            const dx = x - 250;
+            if (dx < 0) return null;
+            return { y1: 150 - Math.sqrt(dx/0.02), y2: 150 + Math.sqrt(dx/0.02) };
+        },
+        isFunc: false
+    }
+};
+        
+        function setGraph(type) {
+    currentGraph = type;
+    document.querySelectorAll('.section:nth-child(3) .btn-group button').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + type).classList.add('active');
+    moveLine(document.getElementById('vLine').value);
+}
+
+function drawGrid() {
+    ctx.clearRect(0, 0, 500, 300);
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    for(let i=0; i<=500; i+=50) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,300); ctx.stroke(); }
+    for(let i=0; i<=300; i+=50) { ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(500,i); ctx.stroke(); }
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+    ctx.beginPath(); ctx.moveTo(250,0); ctx.lineTo(250,300); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0,150); ctx.lineTo(500,150); ctx.stroke();
+}
+
+function moveLine(x) {
+    x = parseInt(x);
+    drawGrid();
+    
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 3;
+    const g = graphs[currentGraph];
+    
+    if (currentGraph === 'circle') {
+        ctx.beginPath(); ctx.arc(250, 150, 100, 0, Math.PI * 2); ctx.stroke();
+    } else if (currentGraph === 'sideways') {
+        ctx.beginPath();
+        for(let y=0; y<=300; y++) {
+            let xPos = 250 + 0.02 * Math.pow(y-150, 2);
+            if(y===0) ctx.moveTo(xPos, y); else ctx.lineTo(xPos, y);
+        }
+        ctx.stroke();
+    } else {
+        ctx.beginPath();
+        for(let px=0; px<=500; px+=2) {
+            const py = g.func(px);
+            if(px===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+    }
+
+    ctx.strokeStyle = '#ef4444';
+    ctx.setLineDash([5, 5]);
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 300); ctx.stroke();
+    ctx.setLineDash([]);
+
+    let hits = 0;
+    let points = [];
+    const val = g.func(x);
+    if (val !== null) {
+        if (typeof val === 'number') { hits = 1; points = [val]; }
+        else { hits = 2; points = [val.y1, val.y2]; }
+    }
+
+    ctx.fillStyle = '#ef4444';
+    points.forEach(y => {
+        ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI*2); ctx.fill();
+    });
+
+    document.getElementById('crossings').textContent = hits;
+    document.getElementById('pos').textContent = 'x=' + ((x-250)/50).toFixed(1);
+    const res = document.getElementById('testResult');
+    if (hits > 1) { res.textContent = 'Not a Function'; res.style.color = 'var(--error)'; }
+    else if (hits === 1) { res.textContent = 'Is a Function'; res.style.color = 'var(--success)'; }
+    else { res.textContent = 'No Input'; res.style.color = 'var(--text-muted)'; }
+}
+        
+        // ==================== Logic: Machine ====================
+let inputVal = '0';
+function addNum(n) {
+    if (inputVal === '0' && n !== '-') inputVal = n;
+    else if (n === '-' && inputVal === '0') inputVal = '-';
+    else if (n === '-' && inputVal.includes('-')) return;
+    else inputVal += n;
+    calculate();
+}
+function clearNum() { inputVal = '0'; calculate(); }
+function calculate() {
+    document.getElementById('inputNum').textContent = inputVal;
+    const x = parseFloat(inputVal);
+    const func = document.getElementById('funcSelect').value;
+    let y;
+    switch(func) {
+        case 'square': y = x * x; break;
+        case 'double': y = 2 * x; break;
+        case 'add': y = x + 5; break;
+        case 'abs': y = Math.abs(x); break;
+        case 'inverse': y = x === 0 ? 'Error' : (1/x).toFixed(2); break;
+    }
+    const out = document.getElementById('outputNum');
+    out.textContent = y;
+    out.style.color = y === 'Error' ? 'red' : 'green';
+}
+
+// Init
+showMapping('id');
+setGraph('parabola');
+
+
+
+
+// Logic for the Explain Section Notation Calculator
+function explainCalculate() {
+    const input = document.getElementById("explainInputX");
+    const resultDiv = document.getElementById("explainResult");
+    const x = parseFloat(input.value);
+    
+    if (isNaN(x)) {
+        resultDiv.style.borderLeftColor = "#ef4444";
+        resultDiv.innerHTML = "Please enter a number";
+        return;
+    }
+    
+    const y = 2 * x + 1;
+    resultDiv.style.borderLeftColor = "#10b981";
+    resultDiv.innerHTML = `f(${x}) = 2(${x}) + 1 = <b>${y}</b>`;
+}
+
+// Logic for Explain Section Graphing
+const explainCanvas = document.getElementById("explainGraph");
+const exCtx = explainCanvas.getContext("2d");
+
+const explainGraphs = {
+    linear: { 
+        title: "Linear: f(x) = x", 
+        desc: "A straight diagonal line passing through the origin (0,0). This represents a constant rate of change where the output value is exactly equal to the input value. Since there are no restrictions, the Domain is all real numbers (-∞, ∞) and the Range is also all real numbers (-∞, ∞), meaning the line extends infinitely in both directions.", 
+        draw: () => {
+            exCtx.beginPath(); exCtx.moveTo(0, 300); exCtx.lineTo(500, 0); exCtx.stroke();
+        }
+    },
+    quadratic: { 
+        title: "Quadratic: f(x) = x²", 
+        desc: "A smooth U-shaped curve called a Parabola. This graph is symmetric and opens upwards. It demonstrates that squaring a number always results in a non-negative value. Therefore, the Domain is all real numbers, but the Range is limited to values greater than or equal to zero [0, ∞).", 
+        draw: () => {
+            exCtx.beginPath();
+            for(let x=0; x<=500; x++){
+                let val = (x-250)/20;
+                let y = 150 - (val*val*5);
+                if(x==0) exCtx.moveTo(x,y); else exCtx.lineTo(x,y);
+            }
+            exCtx.stroke();
+        }
+    },
+    cubic: {
+        title: "Cubic: f(x) = x³",
+        desc: "An S-shaped curve that increases steeply. Unlike the quadratic graph, this curve goes both up and down infinitely. It shows that positive inputs give positive outputs and negative inputs give negative outputs. Because of this, both the Domain and Range are all real numbers (-∞, ∞).",
+        draw: () => {
+            exCtx.beginPath();
+            for (let x = 0; x <= 500; x++) {
+                let val = (x - 250) / 40;
+                let y = 150 - (Math.pow(val, 3) * 10);
+                if (x === 0) exCtx.moveTo(x, y);
+                else exCtx.lineTo(x, y);
+            }
+            exCtx.stroke();
+        }
+    },
+    absolute: { 
+        title: "Absolute: f(x) = |x|", 
+        desc: "A V-shaped graph. This graph represents distance, which is always positive or zero. It looks like two straight lines meeting at the origin. The Domain is all real numbers, but the Range is restricted to zero and positive numbers only [0, ∞), because you cannot have a negative distance.", 
+        draw: () => {
+            exCtx.beginPath(); exCtx.moveTo(0,0); exCtx.lineTo(250, 150); exCtx.lineTo(500,0); exCtx.stroke();
+        }
+    }
+};
+
+function updateExplainGraph(type, btn) {
+    // UI Update
+    document.querySelectorAll('.graph-btn').forEach(b => {
+        b.style.background = "rgba(255,255,255,0.05)";
+        b.style.borderColor = "rgba(255,255,255,0.1)";
+    });
+    btn.style.background = "rgba(59, 130, 246, 0.2)";
+    btn.style.borderColor = "#3b82f6";
+
+    const g = explainGraphs[type];
+    document.getElementById("expGraphTitle").innerText = g.title;
+    document.getElementById("expGraphDesc").innerText = g.desc;
+
+    // Draw
+    exCtx.clearRect(0,0,500,300);
+    // Grid
+    exCtx.strokeStyle = "rgba(255,255,255,0.05)";
+    for(let i=0; i<500; i+=50) { exCtx.beginPath(); exCtx.moveTo(i,0); exCtx.lineTo(i,300); exCtx.stroke(); }
+    for(let i=0; i<300; i+=50) { exCtx.beginPath(); exCtx.moveTo(0,i); exCtx.lineTo(500,i); exCtx.stroke(); }
+    // Axes
+    exCtx.strokeStyle = "rgba(255,255,255,0.2)";
+    exCtx.beginPath(); exCtx.moveTo(250,0); exCtx.lineTo(250,300); exCtx.stroke();
+    exCtx.beginPath(); exCtx.moveTo(0,150); exCtx.lineTo(500,150); exCtx.stroke();
+    // Function
+    exCtx.strokeStyle = "#3b82f6";
+    exCtx.lineWidth = 3;
+    g.draw();
+}
+
+// Initialize graph on load
+setTimeout(() => updateExplainGraph('linear', document.querySelector('.graph-btn')), 100);
+
+            
+            
+            function validateLab(id, multiplier) {
+            const rows = document.getElementById(id).querySelectorAll('tr');
+            
+            rows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                const nRaw = inputs[0].value.trim();
+                const solRaw = inputs[1].value.replace(/\s+/g, ''); // Remove spaces
+                const resRaw = inputs[2].value.trim();
+                const pairRaw = inputs[3].value.replace(/\s+/g, '');
+
+                const n = parseFloat(nRaw);
+                const res = parseFloat(resRaw);
+                const correctRes = n * multiplier;
+
+                // 1. Validate Input (n)
+                inputs[0].className = (nRaw !== "" && !isNaN(n)) ? 'lab-input input-correct' : 'lab-input input-incorrect';
+
+                // 2. Validate Solution Process (Format check: e.g., 25(2) or 25*2)
+                const validSol1 = `${multiplier}(${n})`;
+                const validSol2 = `${multiplier}*${n}`;
+                const isSolCorrect = (solRaw === validSol1 || solRaw === validSol2);
+                inputs[1].className = (isSolCorrect && nRaw !== "") ? 'lab-input input-correct' : 'lab-input input-incorrect';
+
+                // 3. Validate Result (C)
+                inputs[2].className = (res === correctRes && resRaw !== "") ? 'lab-input input-correct' : 'lab-input input-incorrect';
+
+                // 4. Validate Ordered Pair
+                const correctPair = `(${n},${correctRes})`;
+                inputs[3].className = (pairRaw === correctPair && nRaw !== "") ? 'lab-input input-correct' : 'lab-input input-incorrect';
+            });
+        }
+
+        function resetLab(id) {
+            const inputs = document.getElementById(id).querySelectorAll('input');
+            inputs.forEach(input => {
+                input.value = "";
+                input.className = "lab-input";
+            });
+        }
+            
+            
+            
+            
+            function checkEval1() {
+            const q1 = document.getElementById('e_q1').value;
+            const q2 = document.getElementById('e_q2').value;
+            const q3 = document.getElementById('e_q3').value.replace(/\s+/g, '');
+            const res = document.getElementById('e_res1');
+            
+            if (q1 === "yes" && q2 === "no" && q3 === "10,20,30") {
+                res.innerHTML = "Correct!"; res.className = "eval-status status-pass";
+            } else {
+                res.innerHTML = "Kindly review your answers."; res.className = "eval-status status-fail";
+            }
+        }
+
+        // --- Part 2 Logic ---
+        function checkEval2() {
+            const q4 = document.getElementById('e_q4').value;
+            const q5 = document.getElementById('e_q5').value;
+            const q6 = document.getElementById('e_q6').value;
+            const res = document.getElementById('e_res2');
+            
+            if (q4 == "11" && q5 == "11" && q6 == "-1") {
+                res.innerHTML = "Good Job!"; res.className = "eval-status status-pass";
+            } else {
+                res.innerHTML = "Kindly review your answers."; res.className = "eval-status status-fail";
+            }
+        }
+
+        // --- Part 3 Logic ---
+        function checkEval3() {
+            const q7 = document.getElementById('e_q7').value;
+            const q8 = document.getElementById('e_q8').value;
+            const res = document.getElementById('e_res3');
+            
+            if (q7 === "no" && q8 === "true") {
+                res.innerHTML = "Nice one!"; res.className = "eval-status status-pass";
+            } else {
+                res.innerHTML = "Kindly review your answers."; res.className = "eval-status status-fail";
+            }
+        }
+
+        // --- Part 4 & Canvas Logic ---
+        const e_canvas = document.getElementById('e_vlt');
+        const e_ctx = e_canvas.getContext('2d');
+        let e_lineX = 180;
+        let e_isDrag = false;
+
+        function drawE_VLT() {
+            e_ctx.clearRect(0, 0, 400, 200);
+            e_ctx.strokeStyle = "#333"; e_ctx.lineWidth = 2;
+            e_ctx.beginPath(); e_ctx.arc(200, 100, 50, 0, Math.PI * 2); e_ctx.stroke();
+            e_ctx.strokeStyle = "#ec4899"; e_ctx.setLineDash([5, 3]);
+            e_ctx.beginPath(); e_ctx.moveTo(e_lineX, 0); e_ctx.lineTo(e_lineX, 200); e_ctx.stroke();
+            e_ctx.setLineDash([]);
+        }
+
+        e_canvas.addEventListener('mousedown', () => e_isDrag = true);
+        window.addEventListener('mouseup', () => e_isDrag = false);
+        e_canvas.addEventListener('mousemove', (e) => {
+            if (e_isDrag) {
+                const r = e_canvas.getBoundingClientRect();
+                e_lineX = e.clientX - r.left;
+                drawE_VLT();
+            }
+        });
+        drawE_VLT();
+            
+            function checkEval4() {
+            const q9 = document.getElementById('e_q9').value;
+            const q10 = document.getElementById('e_q10').value.toLowerCase().trim();
+            const res = document.getElementById('e_res4');
+            
+            if (q9 === "fail" && (q10 === "no" || q10 === "none")) {
+                res.innerHTML = "Well done!"; res.className = "eval-status status-pass";
+            } else {
+                res.innerHTML = "Kindly review your answers."; res.className = "eval-status status-fail";
+            }
+        }
+            
+    </script>
+</body>
+</html>
